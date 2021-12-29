@@ -18,31 +18,47 @@ neos = pd.read_csv('data\\neos.csv')
 # read
 with open('data\\cad.json', 'r') as file:
     cad = json.load(file)
-    cad_dict = dict(zip(cad['fields'], cad['data']))
-print('done')
+cad_df = pd.DataFrame(cad['data'], columns=cad['fields'])
+
 
 
 # How many NEOs are in the neos.csv data set?
+print(len(neos))
 # Hint: Count the number of rows in the neos.csv file.
 # Answer: 23967
+
 # What is the primary designation of the first Near Earth Object in the neos.csv data set?
+print(neos.loc[0,'pdes'])
 # Hint: Look at the first row of the CSV, under the header "pdes"
 # Answer: 433
+
 # What is the diameter of the NEO whose name is "Apollo"?
+diameter = neos.loc[:, 'diameter'][neos['name'] == 'Apollo']  
+print(diameter)
 # Hint: Look for the row of the CSV containing the name "Apollo" in the "name" column, and find the entry under the "diameter" column.
 # Answer: 1.5 kilometers
+
 # How many NEOs have IAU names in the data set?
+print(neos['name'].notnull().sum())
 # Hint: Count the number of rows that have nonempty entries in the "name" column.
 # Answer: 343
+
 # How many NEOs have diameters in the data set?
+print(neos['diameter'].notnull().sum())
 # Hint: Count the number of rows that have nonempty entries in the "diameter" column.
 # Answer: 1268
+
 # How many close approaches are in the cad.json data set?
+print(len(cad['data']))
 # Hint: Instead of manually counting the entries, you can use the value of the "count" key.
 # Answer: 406785
+
 # On January 1st, 2000, how close did the NEO whose primary designation is "2015 CL" pass by Earth?
+print(cad_df.loc[:, 'dist'][(cad_df['des'] == '2015 CL') & (cad_df['cd'].str.startswith('2000-Jan-01'))])
 # Find entries whose date starts with '2000-Jan-01'. One of the lists represents the close approach of the NEO "2015 CL". What is the value corresponding to the distance from Earth?
 # Answer: About 0.145 au
+
 # On January 1st, 2000, how fast did the NEO whose primary designation is "2002 PB" pass by Earth?
+print(cad_df.loc[:, 'v_rel'][(cad_df['des'] == '2002 PB') & (cad_df['cd'].str.startswith('2000-Jan-01'))])
 # Hint: Find entries whose date starts with '2000-Jan-01'. One of the lists represents the close approach of the NEO "2002 PB". What is the value corresponding to the velocity relative to Earth?
 # Answer: About 29.39 km/s
