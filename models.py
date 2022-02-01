@@ -19,7 +19,10 @@ You'll edit this file in Task 1.
 """
 
 # imports
+from cmath import nan
+import numpy as np
 from helpers import cd_to_datetime, datetime_to_str
+from typing import TYPE_CHECKING
 
 
 class NearEarthObject:
@@ -37,21 +40,25 @@ class NearEarthObject:
 
     # TODO: How can you, and should you, change the arguments to this constructor?
     # If you make changes, be sure to update the comments in this file.
-    def __init__(self, **info):
-        """Create a new `NearEarthObject`.
+    def __init__(self, **neo_dict: dict):
+        """
+        Create a new `NearEarthObject`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        # TODO: Assign information from the arguments passed to the constructor
-        # onto attributes named `designation`, `name`, `diameter`, and `hazardous`.
-        # You should coerce these values to their appropriate data type and
-        # handle any edge cases, such as a empty name being represented by `None`
-        # and a missing diameter being represented by `float('nan')`.
-        self.designation = ''
-        self.name = None
-        self.diameter = float('nan')
-        self.hazardous = False
 
+        self.designation: str = neo_dict['pdes']
+        if type(neo_dict['name']) == float:
+            self.name = None
+        else: self.name: str = neo_dict['name']
+        if np.isnan(neo_dict['diameter']):
+            self.diameter: float = float('nan')
+        else:
+            self.diameter: float = neo_dict['diameter']
+        if neo_dict['pha'] == 'Y':
+            self.hazardous: bool = True
+        elif neo_dict['pha'] == 'N':
+            self.hazardous: bool = False
         # Create an empty initial collection of linked approaches.
         self.approaches = []
 
@@ -66,7 +73,7 @@ class NearEarthObject:
         # TODO: Use this object's attributes to return a human-readable string representation.
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
-        return f"NearEarthObject({self.fullname}, diameter = {self.diameter:.f}, hazardous = {self.hazardous})"
+        return f"NearEarthObject({self.fullname}, diameter = {self.diameter:.3f}, hazardous = {self.hazardous})"
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""

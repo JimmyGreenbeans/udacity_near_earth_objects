@@ -1,4 +1,6 @@
+from cmath import nan
 import pandas as pd
+import numpy as np
 import csv
 import json
 
@@ -21,6 +23,17 @@ with open('data\\cad.json', 'r') as file:
 cad_df = pd.DataFrame(cad['data'], columns=cad['fields'])
 
 
+#print(neos.tail())
+print(type(neos.loc[:-3, 'name']))
+print(type(neos.loc[0, 'name']))
+x = neos.iloc[0, :].to_dict()
+print(x)
+y = neos.iloc[23964, :].to_dict()
+print(y)
+print(x['K1'])
+print(type(x['K1']))
+print(np.isnan(x['K1']))
+x 
 
 # How many NEOs are in the neos.csv data set?
 print(len(neos))
