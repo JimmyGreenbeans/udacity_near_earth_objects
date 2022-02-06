@@ -49,10 +49,10 @@ class NearEarthObject:
         if type(neo_dict['name']) == float: # if value is missing in csv, pandas makes the entry a float(nan)
             self.name = None
         else: self.name: str = neo_dict['name']
-        if np.isnan(neo_dict['diameter']):
-            self.diameter: float = float('nan')
-        else:
+        if type(neo_dict['diameter']) == float:
             self.diameter: float = neo_dict['diameter']
+        else:
+            self.diameter: float = float('nan')
         if neo_dict['pha'] == 'Y':
             self.hazardous: bool = True
         elif neo_dict['pha'] == 'N':

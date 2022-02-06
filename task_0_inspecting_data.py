@@ -3,24 +3,44 @@ import pandas as pd
 import numpy as np
 import csv
 import json
+from models import CloseApproach, NearEarthObject
 
 # read near earth objects database
-neos = pd.read_csv('data\\neos.csv')
-# print(neos.head())
+with open('data\\neos.csv', "r") as infile:
+    reader = csv.DictReader(infile)
+    neos_list = []
+    for neo in reader:        
+        # get list of neos (dictionaries)
+        neos_list.append(neo)
 
-# liste = []
-# with open('data\\neos.csv') as in_file:
-#     csv_reader = csv.DictReader(in_file, delimiter=";")
-#     for row in csv_reader:
-#         lex = {}
-#         for key, value in row.items():
-#             lex[key] = value
-#             liste.append(lex)
+# create list of NEO Objects
+neos = []
+for neo in neos_list:
+    neos.append(NearEarthObject(**neo))
+
+# alternative: Work with Pandas
+# neos = pd.read_csv('data\\neos.csv')
 
 # read
+# returns a dictionary
+# under cad['fields'] you get the keys
+# under cad['data']
+# we want a list of dictionaries with cad.['fields'] as keys
 with open('data\\cad.json', 'r') as file:
     cad = json.load(file)
-cad_df = pd.DataFrame(cad['data'], columns=cad['fields'])
+
+ca_list = []
+for ca in cad['data']:
+    ca_list.append(dict(zip(cad['fields'], ca)))
+# create a list of CloseApproach Objects
+cas = []
+for ca in ca_list:
+    cas.append(CloseApproach(**ca))
+
+
+
+# alternative: Work with Pandas
+# cad_df = pd.DataFrame(cad['data'], columns=cad['fields'])
 
 
 #print(neos.tail())
