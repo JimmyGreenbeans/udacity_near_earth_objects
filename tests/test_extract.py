@@ -15,7 +15,8 @@ import datetime
 import pathlib
 import math
 import unittest
-
+import sys
+sys.path.append(r'..\udacity_near_earth_objects')
 from extract import load_neos, load_approaches
 from models import NearEarthObject, CloseApproach
 

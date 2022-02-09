@@ -23,6 +23,8 @@ from cmath import nan
 import numpy as np
 from helpers import cd_to_datetime, datetime_to_str
 from typing import TYPE_CHECKING
+import sys
+sys.path.append(r'..\udacity_near_earth_objects')
 
 
 class NearEarthObject:
@@ -98,7 +100,7 @@ class CloseApproach:
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
 
-        self._designation: str = ''
+        self._designation: str = ca_dict['des']
         self._time = ca_dict['cd']
         self.distance: float = float(ca_dict['dist'])
         self.velocity: float = float(ca_dict['v_rel'])
