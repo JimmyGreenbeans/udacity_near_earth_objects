@@ -54,6 +54,10 @@ class NEODatabase:
                 ca.neo = neos[index]
                 # append the close approach to list of approaches in neo object
                 neos[index].approaches.append(ca)
+        
+        # make dicts as private attributes with designation respectively name as key and neo_object as value
+        self._des_to_neo = {neo.designation: neo for neo in self._neos}
+        self._name_to_neo = {neo.name: neo for neo in self._neos}
 
     def get_neo_by_designation(self, designation):
         """Find and return an NEO by its primary designation.
@@ -68,8 +72,8 @@ class NEODatabase:
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-        # TODO: Fetch an NEO by its primary designation.
-        return None
+
+        return self._des_to_neo.get(designation.upper(), None)
 
     def get_neo_by_name(self, name):
         """Find and return an NEO by its name.
@@ -85,8 +89,8 @@ class NEODatabase:
         :param name: The name, as a string, of the NEO to search for.
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
-        # TODO: Fetch an NEO by its name.
-        return None
+        
+        return self._name_to_neo.get(name.capitalize(), None)
 
     def query(self, filters=()):
         """Query close approaches to generate those that match a collection of filters.
